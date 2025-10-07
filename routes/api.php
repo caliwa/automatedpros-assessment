@@ -17,17 +17,23 @@ Route::get('/events/{event}', [EventController::class, 'show']);
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::get('/me', [AuthController::class, 'me']);
+    
+    // Payment Details Route (Customer or Admin)
+    Route::get('/payments/{payment}', [PaymentController::class, 'show']);
 
     // Organizer & Admin Routes
     Route::middleware('role:organizer,admin')->group(function () {
         Route::post('/events', [EventController::class, 'store']);
         Route::put('/events/{event}', [EventController::class, 'update']);
         Route::delete('/events/{event}', [EventController::class, 'destroy']);
+        
         Route::post('/events/{event}/tickets', [TicketController::class, 'store']);
+        Route::put('/tickets/{ticket}', [TicketController::class, 'update']);
+        Route::delete('/tickets/{ticket}', [TicketController::class, 'destroy']);
     });
     
-    // Customer Routes
-    Route::middleware('role:customer')->group(function () {
+    // Customer & Admin Routes
+    Route::middleware('role:customer,admin')->group(function () {
         Route::post('/tickets/{ticket}/bookings', [BookingController::class, 'store']);
         Route::get('/bookings', [BookingController::class, 'index']);
         Route::put('/bookings/{booking}/cancel', [BookingController::class, 'cancel']);

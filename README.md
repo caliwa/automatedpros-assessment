@@ -69,13 +69,13 @@ POSTMAN JSON TO IMPORT:
 	"info": {
 		"_postman_id": "a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
 		"name": "Event Booking System API",
-		"description": "Colección de Postman para la API del Sistema de Reserva de Eventos.",
+		"description": "Postman collection for the Event Booking System API.",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
 			"name": "🔑 Authentication",
-			"description": "Endpoints para registrar, autenticar y gestionar usuarios.",
+			"description": "Endpoints for user registration, login, and management.",
 			"item": [
 				{
 					"name": "Register User",
@@ -87,12 +87,12 @@ POSTMAN JSON TO IMPORT:
 							"formdata": [
 								{
 									"key": "name",
-									"value": "Nuevo Cliente Postman",
+									"value": "New Postman Customer",
 									"type": "text"
 								},
 								{
 									"key": "email",
-									"value": "cliente.postman@example.com",
+									"value": "customer.postman@example.com",
 									"type": "text"
 								},
 								{
@@ -117,7 +117,7 @@ POSTMAN JSON TO IMPORT:
 								"register"
 							]
 						},
-						"description": "Crea una nueva cuenta de usuario (rol 'customer' por defecto)."
+						"description": "Creates a new user account (defaults to 'customer' role)."
 					},
 					"response": []
 				},
@@ -145,12 +145,12 @@ POSTMAN JSON TO IMPORT:
 							"formdata": [
 								{
 									"key": "email",
-									"value": "admin@example.com",
+									"value": "admin1@example.com",
 									"type": "text"
 								},
 								{
 									"key": "password",
-									"value": "password",
+									"value": "admin123",
 									"type": "text"
 								}
 							]
@@ -165,7 +165,7 @@ POSTMAN JSON TO IMPORT:
 								"login"
 							]
 						},
-						"description": "Autentica un usuario y retorna un token. El token se guarda automáticamente en la variable de colección `{{token}}`."
+						"description": "Authenticates a user and returns a token. The token is automatically saved to the `{{token}}` collection variable."
 					},
 					"response": []
 				},
@@ -229,7 +229,7 @@ POSTMAN JSON TO IMPORT:
 		},
 		{
 			"name": "🎉 Events",
-			"description": "Gestión de eventos. Las rutas de creación/edición requieren rol de Organizador o Admin.",
+			"description": "Event management. Create/edit actions require Organizer or Admin role.",
 			"item": [
 				{
 					"name": "List Events",
@@ -249,24 +249,24 @@ POSTMAN JSON TO IMPORT:
 								{
 									"key": "search",
 									"value": "sit",
-									"description": "(Opcional) Busca eventos por título.",
+									"description": "(Optional) Search events by title.",
 									"disabled": true
 								},
 								{
 									"key": "date",
 									"value": "2025-11-20",
-									"description": "(Opcional) Filtra eventos por fecha (Y-m-d).",
+									"description": "(Optional) Filter events by date (Y-m-d).",
 									"disabled": true
 								},
 								{
 									"key": "page",
 									"value": "1",
-									"description": "(Opcional) Número de página para la paginación.",
+									"description": "(Optional) Page number for pagination.",
 									"disabled": true
 								}
 							]
 						},
-						"description": "Obtiene una lista paginada de todos los eventos. Es una ruta pública."
+						"description": "Gets a paginated list of all events. This is a public route."
 					},
 					"response": []
 				},
@@ -286,7 +286,7 @@ POSTMAN JSON TO IMPORT:
 								"1"
 							]
 						},
-						"description": "Obtiene los detalles de un evento específico, incluyendo sus tickets. Es una ruta pública."
+						"description": "Gets the details of a specific event, including its tickets. This is a public route."
 					},
 					"response": []
 				},
@@ -310,22 +310,22 @@ POSTMAN JSON TO IMPORT:
 							"formdata": [
 								{
 									"key": "title",
-									"value": "Festival de Jazz de Verano",
+									"value": "Summer Jazz Festival",
 									"type": "text"
 								},
 								{
 									"key": "description",
-									"value": "Los mejores artistas de jazz en una noche mágica.",
+									"value": "The best jazz artists in a magical evening.",
 									"type": "text"
 								},
 								{
 									"key": "date",
-									"value": "2025-12-10 19:30:00",
+									"value": "2026-07-15 20:00:00",
 									"type": "text"
 								},
 								{
 									"key": "location",
-									"value": "Anfiteatro del Parque",
+									"value": "Park Amphitheater",
 									"type": "text"
 								}
 							]
@@ -340,7 +340,7 @@ POSTMAN JSON TO IMPORT:
 								"events"
 							]
 						},
-						"description": "Crea un nuevo evento. Requiere token de Organizador o Admin."
+						"description": "Creates a new event. Requires an Organizer or Admin token."
 					},
 					"response": []
 				},
@@ -369,7 +369,7 @@ POSTMAN JSON TO IMPORT:
 								},
 								{
 									"key": "location",
-									"value": "Gran Salón del Hotel Principal",
+									"value": "Grand Hall of the Main Hotel",
 									"type": "text"
 								}
 							]
@@ -385,7 +385,7 @@ POSTMAN JSON TO IMPORT:
 								"1"
 							]
 						},
-						"description": "Actualiza un evento existente. Requiere token del Organizador dueño del evento o de un Admin.\n\n**Nota:** Se usa el método POST con el campo `_method: PUT` para compatibilidad con `form-data` en Laravel."
+						"description": "Updates an existing event. Requires a token from the event's owner (Organizer) or an Admin.\n\n**Note:** Uses POST method with a `_method: PUT` field for compatibility with form-data in Laravel."
 					},
 					"response": []
 				},
@@ -415,7 +415,7 @@ POSTMAN JSON TO IMPORT:
 								"1"
 							]
 						},
-						"description": "Elimina un evento. Requiere token del Organizador dueño del evento o de un Admin."
+						"description": "Deletes an event. Requires a token from the event's owner (Organizer) or an Admin."
 					},
 					"response": []
 				}
@@ -423,7 +423,7 @@ POSTMAN JSON TO IMPORT:
 		},
 		{
 			"name": "🎟️ Tickets",
-			"description": "Gestión de tickets para eventos.",
+			"description": "Ticket management for events.",
 			"item": [
 				{
 					"name": "Add Ticket to Event",
@@ -472,7 +472,82 @@ POSTMAN JSON TO IMPORT:
 								"tickets"
 							]
 						},
-						"description": "Añade un nuevo tipo de ticket a un evento existente. Requiere token del Organizador dueño del evento o de un Admin."
+						"description": "Adds a new ticket type to an existing event. Requires a token from the event's owner (Organizer) or an Admin."
+					},
+					"response": []
+				},
+				{
+					"name": "Update Ticket",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "_method",
+									"value": "PUT",
+									"type": "text"
+								},
+								{
+									"key": "price",
+									"value": "275.50",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/tickets/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"tickets",
+								"1"
+							]
+						},
+						"description": "Updates an existing ticket. Requires a token from the event's owner (Organizer) or an Admin.\n\n**Note:** Uses POST method with a `_method: PUT` field for compatibility."
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Ticket",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/tickets/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"tickets",
+								"1"
+							]
+						},
+						"description": "Deletes a ticket. Requires a token from the event's owner (Organizer) or an Admin."
 					},
 					"response": []
 				}
@@ -480,7 +555,7 @@ POSTMAN JSON TO IMPORT:
 		},
 		{
 			"name": "🛍️ Bookings",
-			"description": "Operaciones de reserva realizadas por clientes.",
+			"description": "Booking operations performed by customers.",
 			"item": [
 				{
 					"name": "Create Booking",
@@ -519,7 +594,7 @@ POSTMAN JSON TO IMPORT:
 								"bookings"
 							]
 						},
-						"description": "Un cliente crea una reserva para un ticket específico. Requiere token de Cliente."
+						"description": "A customer creates a booking for a specific ticket. Requires a Customer token."
 					},
 					"response": []
 				},
@@ -548,7 +623,7 @@ POSTMAN JSON TO IMPORT:
 								"bookings"
 							]
 						},
-						"description": "Lista todas las reservas hechas por el cliente autenticado. Requiere token de Cliente."
+						"description": "Lists all bookings made by the authenticated customer. Requires a Customer token."
 					},
 					"response": []
 				},
@@ -589,7 +664,7 @@ POSTMAN JSON TO IMPORT:
 								"cancel"
 							]
 						},
-						"description": "Cancela una reserva pendiente. Requiere token del Cliente dueño de la reserva."
+						"description": "Cancels a pending booking. Requires a token from the Customer who owns the booking."
 					},
 					"response": []
 				}
@@ -597,7 +672,7 @@ POSTMAN JSON TO IMPORT:
 		},
 		{
 			"name": "💳 Payments",
-			"description": "Procesamiento de pagos para las reservas.",
+			"description": "Processing payments for bookings.",
 			"item": [
 				{
 					"name": "Process Payment for Booking",
@@ -626,7 +701,37 @@ POSTMAN JSON TO IMPORT:
 								"payment"
 							]
 						},
-						"description": "Inicia el procesamiento de pago (simulado) para una reserva pendiente. Requiere token del Cliente dueño de la reserva."
+						"description": "Initiates the (mock) payment process for a pending booking. Requires a token from the Customer who owns the booking."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Payment Details",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/payments/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"payments",
+								"1"
+							]
+						},
+						"description": "Gets the details of a specific payment. Requires a token from the user who owns the payment, or an Admin."
 					},
 					"response": []
 				}

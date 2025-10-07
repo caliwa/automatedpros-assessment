@@ -20,7 +20,7 @@ class EventController extends Controller
     {
         $cacheKey = 'events.page.' . $request->get('page', 1) . '.' . $request->get('search', '');
         
-        $events = Cache::tags(['events'])->remember($cacheKey, 60, function () use ($request) {
+        $events = Cache::remember($cacheKey, 60, function () use ($request) {
             return Event::query()
                 ->with('organizer:id,name')
                 ->searchByTitle($request->query('search'))

@@ -16,7 +16,7 @@ class EventService
     public function createEvent(EventData $data): Event
     {
         $event = Event::create($data->toArray() + ['created_by' => auth()->id()]);
-        Cache::tags(['events'])->flush();
+        Cache::flush();
         return $event;
     }
 
@@ -29,7 +29,7 @@ class EventService
     public function updateEvent(Event $event, EventData $data): Event
     {
         $event->update($data->toArray());
-        Cache::tags(['events'])->flush();
+        Cache::flush();
         return $event;
     }
 
@@ -41,6 +41,6 @@ class EventService
     public function deleteEvent(Event $event): void
     {
         $event->delete();
-        Cache::tags(['events'])->flush();
+        Cache::flush();
     }
 }

@@ -7,6 +7,7 @@ use App\Enums\BookingStatus;
 use App\Services\PaymentService;
 use App\Http\Controllers\Controller;
 use App\Exceptions\Exceptions\PaymentFailedException;
+use App\Models\Payment;
 
 class PaymentController extends Controller
 {
@@ -39,5 +40,14 @@ class PaymentController extends Controller
         } catch (PaymentFailedException $e) {
             return $this->errorResponse($e->getMessage(), 500);
         }
+    }
+
+    /**
+     * Display the specified payment.
+     */
+    public function show(Payment $payment)
+    {
+        $this->authorize('view', $payment);
+        return $this->successfulResponse($payment->load('booking.user'), 'Payment details retrieved.');
     }
 }
