@@ -60,11 +60,15 @@ This project adheres to a strict set of coding standards, including:
 ## Running Tests
 
 To run the entire test suite using Pest:
-```bash
-php artisan test
+    ```bash
 
+	php artisan test
+    ```
 
 POSTMAN JSON TO IMPORT:
+```bash
+
+
 {
 	"info": {
 		"_postman_id": "a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
