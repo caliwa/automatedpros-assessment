@@ -2,27 +2,28 @@
 
 namespace App\Http\Requests\Api;
 
+use App\Data\EventData;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreEventRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
-     */
     public function rules(): array
     {
         return [
-            //
+            'title' => 'required|string|max:255',
+            'description' => 'required|string',
+            'date' => 'required|date|after:now',
+            'location' => 'required|string|max:255',
         ];
+    }
+    
+    public function toData(): EventData
+    {
+        return EventData::from($this);
     }
 }
