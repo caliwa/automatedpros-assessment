@@ -3,47 +3,58 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\StoreEventRequest;
+use App\Http\Requests\Api\UpdateEventRequest;
+use App\Models\Event;
+use App\Services\EventService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class EventController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function __construct(private EventService $eventService)
     {
-        //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function index(Request $request)
     {
-        //
+        $cacheKey = 'events.page.' . $request->get('page', 1) . '.' . $request->get('search', '');
+        
+        $events = Cache::tags(['events'])->remember($cacheKey, 60, function () use ($request) {
+            return Event::query()
+                ->with('organizer:id,name')
+                ->searchByTitle($request->query('search'))
+                ->filterByDate($request->query('date'))
+                ->latest()
+                ->paginate(10);
+        });
+
+        return $this->successfulResponse($events, 'Events retrieved successfully.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function store(StoreEventRequest $request)
     {
-        //
+        $event = $this->eventService->createEvent($request->toData());
+        return $this->successfulResponse($event, 'Event created successfully.', 201);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function show(Event $event)
     {
-        //
+        $event->load('tickets', 'organizer:id,name,email');
+        return $this->successfulResponse($event, 'Event details retrieved.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function update(UpdateEventRequest $request, Event $event)
     {
-        //
+        $this->authorize('update', $event);
+        $updatedEvent = $this->eventService->updateEvent($event, $request->toData());
+        return $this->successfulResponse($updatedEvent, 'Event updated successfully.');
+    }
+
+    public function destroy(Event $event)
+    {
+        $this->authorize('delete', $event);
+        $this->eventService->deleteEvent($event);
+        return $this->successfulResponse(null, 'Event deleted successfully.', 204);
     }
 }

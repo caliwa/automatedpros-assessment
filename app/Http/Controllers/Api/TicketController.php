@@ -3,47 +3,25 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Http\Requests\Api\StoreTicketRequest;
+use App\Models\Event;
+use App\Models\Ticket;
 
 class TicketController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Store a newly created ticket in storage for an event.
+     *
+     * @param \App\Http\Requests\Api\StoreTicketRequest $request
+     * @param \App\Models\Event $event
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function index()
+    public function store(StoreTicketRequest $request, Event $event)
     {
-        //
-    }
+        $ticketData = $request->toData()->toArray();
+        
+        $ticket = $event->tickets()->create($ticketData);
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        return $this->successfulResponse($ticket, 'Ticket created successfully.', 201);
     }
 }

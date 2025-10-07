@@ -2,48 +2,42 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Models\Booking;
+use App\Enums\BookingStatus;
+use App\Services\PaymentService;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Exceptions\Exceptions\PaymentFailedException;
 
 class PaymentController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * @param \App\Services\PaymentService $paymentService
      */
-    public function index()
+    public function __construct(private PaymentService $paymentService)
     {
-        //
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Process a payment for the specified booking.
+     *
+     * @param \App\Models\Booking $booking
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function store(Request $request)
+    public function process(Booking $booking)
     {
-        //
-    }
+        $this->authorize('manage', $booking);
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
+        if ($booking->status !== BookingStatus::PENDING) {
+            return $this->errorResponse('Payment can only be processed for pending bookings.', 400);
+        }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        try {
+            $payment = $this->paymentService->processPayment($booking);
+            $message = $payment->status->value === 'success' ? 'Payment processed successfully.' : 'Payment failed.';
+            
+            return $this->successfulResponse($payment, $message);
+        } catch (PaymentFailedException $e) {
+            return $this->errorResponse($e->getMessage(), 500);
+        }
     }
 }

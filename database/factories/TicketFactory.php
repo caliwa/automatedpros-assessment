@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Event;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +18,10 @@ class TicketFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'event_id' => Event::factory(),
+            'type' => fake()->randomElement(['Standard', 'VIP', 'General Admission']),
+            'price' => fake()->randomFloat(2, 15, 250),
+            'quantity' => fake()->numberBetween(50, 500),
         ];
     }
 }

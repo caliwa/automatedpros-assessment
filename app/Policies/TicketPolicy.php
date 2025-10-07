@@ -2,6 +2,7 @@
 
 namespace App\Policies;
 
+use App\Enums\UserRole;
 use App\Models\Ticket;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
@@ -9,58 +10,43 @@ use Illuminate\Auth\Access\Response;
 class TicketPolicy
 {
     /**
-     * Determine whether the user can view any models.
+     * Perform pre-authorization checks.
+     *
+     * @param \App\Models\User $user
+     * @param string $ability
+     * @return bool|null
      */
-    public function viewAny(User $user): bool
+    public function before(User $user, string $ability): bool|null
     {
-        return false;
-    }
-
-    /**
-     * Determine whether the user can view the model.
-     */
-    public function view(User $user, Ticket $ticket): bool
-    {
-        return false;
-    }
-
-    /**
-     * Determine whether the user can create models.
-     */
-    public function create(User $user): bool
-    {
-        return false;
+        if ($user->role === UserRole::ADMIN) {
+            return true;
+        }
+        return null;
     }
 
     /**
      * Determine whether the user can update the model.
+     *
+     * @param \App\Models\User $user
+     * @param \App\Models\Ticket $ticket
+     * @return bool
      */
     public function update(User $user, Ticket $ticket): bool
     {
-        return false;
+        // El usuario puede actualizar el ticket si es el creador del evento al que pertenece el ticket.
+        return $user->id === $ticket->event->created_by;
     }
 
     /**
      * Determine whether the user can delete the model.
+     *
+     * @param \App\Models\User $user
+     * @param \App\Models\Ticket $ticket
+     * @return bool
      */
     public function delete(User $user, Ticket $ticket): bool
     {
-        return false;
-    }
-
-    /**
-     * Determine whether the user can restore the model.
-     */
-    public function restore(User $user, Ticket $ticket): bool
-    {
-        return false;
-    }
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
-    public function forceDelete(User $user, Ticket $ticket): bool
-    {
-        return false;
+        // El usuario puede borrar el ticket si es el creador del evento al que pertenece el ticket.
+        return $user->id === $ticket->event->created_by;
     }
 }
