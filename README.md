@@ -65,10 +65,10 @@ To run the entire test suite using Pest:
 	php artisan test
     ```
 
-POSTMAN JSON TO IMPORT:
 ```bash
 
 
+POSTMAN JSON TO IMPORT:
 {
 	"info": {
 		"_postman_id": "a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",

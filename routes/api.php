@@ -34,7 +34,7 @@ Route::middleware('auth:sanctum')->group(function () {
     
     // Customer & Admin Routes
     Route::middleware('role:customer,admin')->group(function () {
-        Route::post('/tickets/{ticket}/bookings', [BookingController::class, 'store']);
+        Route::post('/tickets/{ticket}/bookings', [BookingController::class, 'store'])->middleware('prevent_double_booking');
         Route::get('/bookings', [BookingController::class, 'index']);
         Route::put('/bookings/{booking}/cancel', [BookingController::class, 'cancel']);
         Route::post('/bookings/{booking}/payment', [PaymentController::class, 'process']);
