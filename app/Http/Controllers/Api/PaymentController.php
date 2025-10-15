@@ -6,7 +6,7 @@ use App\Models\Booking;
 use App\Enums\BookingStatus;
 use App\Services\PaymentService;
 use App\Http\Controllers\Controller;
-use App\Exceptions\Exceptions\PaymentFailedException;
+use App\Exceptions\PaymentFailedException;
 use App\Models\Payment;
 
 class PaymentController extends Controller

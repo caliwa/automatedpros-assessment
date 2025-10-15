@@ -8,7 +8,7 @@ use App\Enums\PaymentStatus;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use App\Notifications\BookingConfirmed;
-use App\Exceptions\Exceptions\PaymentFailedException;
+use App\Exceptions\PaymentFailedException;
 
 class PaymentService
 {
